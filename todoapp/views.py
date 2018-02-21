@@ -10,16 +10,27 @@ from todoapp.models import *
 from rest_framework import generics
 from rest_framework.permissions import IsAdminUser
 
+from django.contrib.auth.models import User
+
 
 # Create your views here.
 
-class ToDoListView(generics.ListAPIView):
+class CreateUserView(generics.ListCreateAPIView):
 
 	"""
-	ToDoList view
+	User create & list view
 	"""
-    queryset = ToDoList.objects.all()
-    serializer_class = ToDoListSerializer
+	queryset = User.objects.all()
+	serializer_class = UserSerializer
+
+
+class ToDoListView(generics.ListCreateAPIView):
+
+	"""
+	ToDoList create & list view
+	"""
+	queryset = ToDoList.objects.all()
+	serializer_class = ToDoListSerializer
 
 
 class ToDoListCreateView(generics.CreateAPIView):
@@ -27,17 +38,17 @@ class ToDoListCreateView(generics.CreateAPIView):
 	"""
 	ToDoList create view
 	"""
-    queryset = ToDoList.objects.all()
-    serializer_class = ToDoListSerializer
+	queryset = ToDoList.objects.all()
+	serializer_class = ToDoListSerializer
 
 
-class SubToDoListView(generics.ListAPIView):
+class SubToDoListView(generics.ListCreateAPIView):
 
 	"""
 	SubToDoList view
 	"""
-    queryset = SubToDoList.objects.all()
-    serializer_class = SubToDoListSerializer
+	queryset = SubToDoList.objects.all()
+	serializer_class = SubToDoListSerializer
 
 
 class SubToDoListCreateView(generics.ListCreateAPIView):
@@ -45,5 +56,5 @@ class SubToDoListCreateView(generics.ListCreateAPIView):
 	"""
 	SubToDoList create view
 	"""
-    queryset = SubToDoList.objects.all()
-    serializer_class = SubToDoListSerializer
+	queryset = SubToDoList.objects.all()
+	serializer_class = SubToDoListSerializer
