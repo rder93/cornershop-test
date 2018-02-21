@@ -8,19 +8,20 @@ from django.db import models
 class ToDoList(models.Model): 
 
 	task_name = models.CharField(max_length=250, unique=True)
-	status = models.BooleanField("Falta por hacer!", default=True)
+	status = models.BooleanField(default=True)
 
 	def __unicode__(self): 
-		return self.task_name, self.status
+		return '%s: %s' % (self.task_name, self.status)
 
 	class Meta:
 		ordering = ['task_name']
 
 
 class SubToDoList(models.Model):
-	todolist = models.ForeignKey(ToDoList)
+
 	subtask_name = models.CharField(max_length=250, unique=True)
-	status = models.BooleanField("Falta por hacer!", default=True)
+	status = models.BooleanField(default=True)
+	todolist = models.ForeignKey(ToDoList, related_name='subtodolist')
 
 	def __unicode__(self):
-		return self.subtask_name, self.todolist, self.status
+		return '%s: %s  %s' % (self.subtask_name, self.status, self.todolist)

@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from django.contrib import admin
+from todoapp.views import *
 
 urlpatterns = [
-    url(r'^', admin.site.urls),
+    url(r'^todo/', ToDoListView.as_view(), name='toDolist'),
 ]
