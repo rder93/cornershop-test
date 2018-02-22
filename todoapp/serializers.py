@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 
 from todoapp.models import *
 
-class UserSerializer(serializers.ModelSerializer):
+class UserRegisterSerializer(serializers.ModelSerializer):
+
     email = serializers.EmailField(required=True)
     username = serializers.CharField(validators=[UniqueValidator(queryset=User.objects.all())])
     password = serializers.CharField(min_length=5, style={'input_type': 'password'})
@@ -36,7 +37,6 @@ class ToDoListSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ToDoList
 		fields = ('id', 'task_name', 'status', 'subtodolist')
-		read_only_fields = ('status', )
 
 	# def create(self, validated_data):
 	# 	subtodolist_data = validated_data.pop('subtodolist')
