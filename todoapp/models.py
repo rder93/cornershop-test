@@ -17,9 +17,10 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 class TodoList(models.Model): 
 
-	CHOICE = [(0,'Falta por hacer!'),(1,'Resuelta tarea!')]
+	# Fields from model
+	CHOICE = [(False,'Falta por hacer!'),(True,'Resuelta tarea!')]
 	task_name = models.CharField(max_length=250, unique=True)
-	status = models.BooleanField(choices=CHOICE, default=0, blank=True)
+	status = models.BooleanField(choices=CHOICE, default=False, blank=True)
 
 	def __unicode__(self): 
 		return '%s %s' % (self.task_name, self.status)
@@ -33,9 +34,10 @@ class TodoList(models.Model):
 
 class SubTodoList(models.Model):
 
-	CHOICE = [(0,'Falta por hacer!'),(1,'Resuelta tarea!')]
+	# Fields from model
+	CHOICE = [(False,'Falta por hacer!'),(True,'Resuelta tarea!')]
 	subtask_name = models.CharField(max_length=250, unique=True)
-	status = models.BooleanField(choices=CHOICE, default=0)
+	status = models.BooleanField(choices=CHOICE, default=False)
 	todolist = models.ForeignKey(TodoList, related_name='subtodolist')
 
 	def __unicode__(self):
