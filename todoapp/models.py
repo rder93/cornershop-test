@@ -8,16 +8,20 @@ from django.dispatch import receiver
 
 from rest_framework.authtoken.models import Token
 
+"""
+Function to add automatically token to new user when register
+"""
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
-
-# Create your models here.
+        
 
 class TodoList(models.Model): 
 
-	# Fields from model
+	"""
+	Fields from model
+	"""
 	CHOICE = [(False,'Falta por hacer!'),(True,'Resuelta tarea!')]
 	task_name = models.CharField(max_length=250, unique=True)
 	status = models.BooleanField(choices=CHOICE, default=False, blank=True)
@@ -34,7 +38,9 @@ class TodoList(models.Model):
 
 class SubTodoList(models.Model):
 
-	# Fields from model
+	"""
+	Fields from model
+	"""
 	CHOICE = [(False,'Falta por hacer!'),(True,'Resuelta tarea!')]
 	subtask_name = models.CharField(max_length=250, unique=True)
 	status = models.BooleanField(choices=CHOICE, default=False)
