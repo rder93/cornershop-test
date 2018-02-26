@@ -10,7 +10,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 	"""
 	Fields from user serializer and validate data received from view to create an account
 	"""
-	email = serializers.EmailField(required=True)
+	email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
 	username = serializers.CharField(validators=[UniqueValidator(queryset=User.objects.all())])
 	password = serializers.CharField(min_length=5, style={'input_type': 'password'})
 
