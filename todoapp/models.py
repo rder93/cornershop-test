@@ -8,17 +8,17 @@ from django.dispatch import receiver
 
 from rest_framework.authtoken.models import Token
 
-"""
-Function to add automatically token to new user when register
-"""
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
-        
+	"""
+	Function to add automatically token to new user when register
+	"""
+	if created:
+		Token.objects.create(user=instance)
 
-class TodoList(models.Model): 
 
+class Todo(models.Model): 
 	"""
 	Fields from model
 	"""
@@ -27,7 +27,7 @@ class TodoList(models.Model):
 	status = models.BooleanField(choices=CHOICE, default=False, blank=True)
 
 	def __unicode__(self): 
-		return '%s %s' % (self.task_name, self.status)
+		return '%s' % (self.task_name)
 
 	"""
 	Ordering by task_name the data
@@ -36,15 +36,14 @@ class TodoList(models.Model):
 		ordering = ['task_name']
 
 
-class SubTodoList(models.Model):
-
+class SubTodo(models.Model):
 	"""
 	Fields from model
 	"""
 	CHOICE = [(False,'Falta por hacer!'),(True,'Resuelta tarea!')]
 	subtask_name = models.CharField(max_length=250, unique=True)
 	status = models.BooleanField(choices=CHOICE, default=False)
-	todolist = models.ForeignKey(TodoList, related_name='subtodolist')
+	todolist = models.ForeignKey(Todo, related_name='subtodolist')
 
 	def __unicode__(self):
-		return '%s %s  %s' % (self.subtask_name, self.status, self.todolist)
+		return '%s / SubTodo: %s' % (self.subtask_name, self.todolist)

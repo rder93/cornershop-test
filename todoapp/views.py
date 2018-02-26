@@ -24,33 +24,49 @@ class UserRegisterView(generics.ListCreateAPIView):
 	serializer_class = UserRegisterSerializer
 
 
-class TodoListView(generics.ListCreateAPIView):
+class TodoListView(generics.ListAPIView):
 	"""
-	Todo list and creating new tasks
+	Todo list view
 	"""
-	queryset = TodoList.objects.all()
-	serializer_class = TodoListSerializer
+	queryset = Todo.objects.all()
+	serializer_class = TodoSerializer
 
 
-class SubTodoListView(generics.ListCreateAPIView):
+class TodoCreateView(generics.CreateAPIView):
 	"""
-	Sub-Todo list and creating new sub-tasks
+	Todo create view
 	"""
-	queryset = SubTodoList.objects.all()
-	serializer_class = SubTodoListSerializer
+	queryset = Todo.objects.all()
+	serializer_class = TodoCreateSerializer
 
 
 class TodoEditDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve, update or delete a todo instance.
     """
-    queryset = TodoList.objects.all()
-    serializer_class = TodoListSerializer
+    queryset = Todo.objects.all()
+    serializer_class = TodoEditSerializer
+
+
+class SubTodoListView(generics.ListAPIView):
+	"""
+	Sub-tasks from Todo List
+	"""
+	queryset = SubTodo.objects.all()
+	serializer_class = SubTodoSerializer
+
+
+class SubTodoCreateView(generics.CreateAPIView):
+	"""
+	Todo create view
+	"""
+	queryset = SubTodo.objects.all()
+	serializer_class = SubTodoCreateSerializer
 
 
 class SubTodoEditDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve, update or delete a subtodo instance.
     """
-    queryset = SubTodoList.objects.all()
-    serializer_class = SubTodoListSerializer
+    queryset = SubTodo.objects.all()
+    serializer_class = SubTodoEditSerializer
