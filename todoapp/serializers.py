@@ -84,3 +84,12 @@ class TodoEditSerializer(serializers.ModelSerializer):
 		fields = ('id', 'task_name', 'status', 'subtodolist')
 		read_only_fields = ('task_name', 'subtodolist',)
 		depth = 1
+
+	"""
+    Update all subtodo list status when todo status change
+    """
+	def update(self, instance, validated_data):
+		Todo.objects.filter(pk=instance.pk).update(status=validated_data['status'])
+		SubTodo.objects.filter(todolist=instance.pk).update(status=validated_data['status'])
+		todo = Todo.objects.get(pk=instance.pk)
+		return todo
