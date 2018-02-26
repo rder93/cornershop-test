@@ -22,19 +22,19 @@ class UserTestCase(TestCase):
         # sending a false register data to validate
         response = self.client.post('/api/register/',{'username':'rder93','password':'12345','email': 'ricaldo@gmail.com'})
         # print(response)
-        self.assertEqual(response.status_code, 400, 'invalid data')
+        self.assertEqual(response.status_code, 400)
 
     def test_invalidLogin_user(self):
         # sending a false login data to validate
         response = self.client.post('/api/login/',{'username':'rder93','password':'12345','email': 'rder993@gmail.com'})
         # print(response)
-        self.assertEqual(response.status_code, 400, 'invalid data')
+        self.assertEqual(response.status_code, 400)
 
     def test_login_user(self):
         # sending login data to validate
         response = self.client.post('/api/login/', self.user_data, follow=True)
         # print(response)
-        self.assertTrue(response.token, 'OK')
+        self.assertTrue(response.status_code, 200)
 
 
 class TodoTestCase(TestCase):
@@ -44,34 +44,34 @@ class TodoTestCase(TestCase):
             'task_name': 'Ir a Argentina',
             'status': False,
         }
-        todo = Todo.objects.create(**self.todo_data)
+        self.todo = Todo.objects.create(**self.todo_data)
         self.subtodo_data = {
             'subtask_name': 'visitar La Plata',
             'status': False,
-            'todolist': todo
+            'todolist': self.todo
         }
-        subtodo = SubTodo.objects.create(**self.subtodo_data)
+        self.subtodo = SubTodo.objects.create(**self.subtodo_data)
 
     def test_invalid_todo(self):
         # sending a false todo data, existing task with that name
         response = self.client.post('/api/todo/create/', self.todo_data, follow=True)
         # print(response)
-        self.assertEqual(response.status_code, 400, 'invalid data')
+        self.assertEqual(response.status_code, 400)
 
     def test_valid_todo(self):
         # sending a valid todo data to save
         response = self.client.post('/api/todo/create/', {'task_name': 'Crear aplicacion', 'status':False}, follow=True)
         # print(response)
-        self.assertEqual(response.status_code, 200, 'OK')
+        self.assertEqual(response.status_code, 201)
 
     def test_invalid_subtodo(self):
         # sending a false subtodo data, existing task with that name
         response = self.client.post('/api/subtodo/create/', self.todo_data, follow=True)
         # print(response)
-        self.assertEqual(response.status_code, 400, 'invalid data')
+        self.assertEqual(response.status_code, 400)
 
     def test_valid_subtodo(self):
         # sending a valid subtodo data to save
-        response = self.client.post('/api/subtodo/create/', {'subtask_name': 'ir a la Patagonia', 'status':False, 'todolist': todo}, follow=True)
+        response = self.client.post('/api/subtodo/create/', {'subtask_name': 'ir a la Patagonia', 'status':False, 'todolist': self.todo.pk}, follow=True)
         # print(response)
-        self.assertEqual(response.status_code, 200, 'OK')
+        self.assertEqual(response.status_code, 201)
